@@ -1,6 +1,8 @@
 package main.itrade.data.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -8,9 +10,11 @@ import javax.persistence.Id;
  */
 @Entity
 public class Bank {
-    private Integer id;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
     public Integer getId() {
         return id;
     }

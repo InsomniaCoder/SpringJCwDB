@@ -1,12 +1,14 @@
 package main.itrade;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.context.annotation.Bean;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -17,9 +19,9 @@ import java.util.Properties;
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
  */
 @Configuration
+@EnableJpaRepositories("main.itrade.data.repositories")
 @EnableTransactionManagement
 public class PersistenceContext {
-
 
     @Bean(destroyMethod = "close")
     public DataSource dataSource(){
@@ -31,8 +33,6 @@ public class PersistenceContext {
         System.out.println("Datasource initialized");
         return dataSource;
     }
-
-
 
     @Bean
     LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
@@ -77,10 +77,9 @@ public class PersistenceContext {
     }
 
     @Bean
-    JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager;
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory)
+    {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 
 }

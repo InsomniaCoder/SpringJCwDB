@@ -1,9 +1,6 @@
 package main.itrade.data.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
@@ -12,10 +9,13 @@ import javax.persistence.Id;
 public class Company {
 
     @Id
-    @GeneratedValue
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column
-    String name;
+    private String code;
+
+    @Column
+    private String name;
 
 }
