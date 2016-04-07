@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @ComponentScan(basePackages = "main.itrade.beans")
-@Import({ PersistenceContext.class})
+@Import({PersistenceContext.class})
 public class ApplicationConfigure {
 
 

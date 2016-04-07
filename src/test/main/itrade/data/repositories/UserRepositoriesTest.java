@@ -23,29 +23,28 @@ public class UserRepositoriesTest {
     UserRepository userRepository;
 
     @Test
-    public void testFindByIdAdmin(){
-        User foundUser = userRepository.findOne(0);
-        User adminUser = User.createUser(User.UserRole.ADMIN,"admin","admin");
-        Assert.assertEquals("First user found is not admin user",adminUser,foundUser);
+    public void testFindByIdAdmin() {
+        List<User> foundUsers = userRepository.findUserByUserIdAndPassword("admin", "admin");
+        User adminUser = User.createUser(User.UserRole.ADMIN, "admin", "admin");
+        Assert.assertEquals("First user found is not admin user", adminUser, foundUsers.get(0));
     }
 
     @Test
-    public void testFindRegularUserByIdAndPasswordShouldFound(){
+    public void testFindRegularUserByIdAndPasswordShouldFound() {
 
-        List<User> foundUsers = userRepository.findUserByUserIdAndPassword("user","user");
-        Assert.assertEquals("Found more than 1 regular user",1,foundUsers.size());
+        List<User> foundUsers = userRepository.findUserByUserIdAndPassword("user", "user");
+        Assert.assertEquals("Found more than 1 regular user", 1, foundUsers.size());
 
-        User regularUser = User.createUser(User.UserRole.REGULAR,"user","user");
-        Assert.assertEquals("Regular user not found or not match",regularUser,foundUsers.get(0));
+        User regularUser = User.createUser(User.UserRole.REGULAR, "user", "user");
+        Assert.assertEquals("Regular user not found or not match", regularUser, foundUsers.get(0));
     }
 
     @Test
-    public void testFindNonExistingUserShouldFail(){
+    public void testFindNonExistingUserShouldReturnEmpty() {
 
-        List<User> foundUsers = userRepository.findUserByUserIdAndPassword("someone","something");
-        Assert.assertEquals("Found should not found user ",0,foundUsers.size());
+        List<User> foundUsers = userRepository.findUserByUserIdAndPassword("someone", "something");
+        Assert.assertEquals("Found should not found user ", 0, foundUsers.size());
     }
-
 
 
 }

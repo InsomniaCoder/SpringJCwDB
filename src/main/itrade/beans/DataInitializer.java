@@ -18,17 +18,16 @@ public class DataInitializer {
     UserRepository userRepository;
 
     @PostConstruct
-    public void setUpMockData()
-    {
+    public void setUpMockData() {
         System.out.println("Setting up mock up data in database");
         createMockUser();
     }
 
     @Transactional
     private void createMockUser() {
-        User adminUser = User.createUser(User.UserRole.ADMIN,"admin","admin");
-        User authorizeUser = User.createUser(User.UserRole.AUTHORIZER,"authorizer","authorizer");
-        User regularUser = User.createUser(User.UserRole.REGULAR,"user","regular");
+        User adminUser = User.createUser(User.UserRole.ADMIN, "admin", "admin");
+        User authorizeUser = User.createUser(User.UserRole.AUTHORIZER, "authorizer", "authorizer");
+        User regularUser = User.createUser(User.UserRole.REGULAR, "user", "user");
         userRepository.save(adminUser);
         userRepository.save(authorizeUser);
         userRepository.save(regularUser);
