@@ -1,2 +1,4 @@
 iCorporateBackend.iml
 out/artifacts/iCorporateBackend_war_exploded/META-INF/MANIFEST.MF
+.idea/
+target/
