@@ -44,6 +44,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/user",method = RequestMethod.GET)
     public ResponseEntity<String> getCurrentUser(){
              String responseJson = gson.toJson(currentUser);
