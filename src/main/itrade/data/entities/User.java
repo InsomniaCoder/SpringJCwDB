@@ -26,6 +26,9 @@ public class User {
         this.password = password;
     }
 
+    @ManyToOne
+    private Company company;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -39,14 +42,22 @@ public class User {
     @Column
     private String role;
 
-    @ManyToOne
-    private Company company;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "user")
+    private LimitInfo limitInfo;
 
 
     public static User createUser(UserRole userRole, String userId, String password){
         return new User(userRole.toString(),userId,password);
     }
 
+
+    public LimitInfo getLimitInfo() {
+        return limitInfo;
+    }
+
+    public void setLimitInfo(LimitInfo limitInfo) {
+        this.limitInfo = limitInfo;
+    }
 
     public Integer getId() {
         return id;
