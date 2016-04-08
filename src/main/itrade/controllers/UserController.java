@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -28,17 +27,21 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * verify userId and password in the database
+     * if found -> create session and add user into it
+     * not found -> return null
+     *
+     * @param jsonUser json data from user contains userId and password form post data
+     * @param request  HttpServletRequest is used to intercept session
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<String> login(@RequestBody String jsonUser, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(60 * 60);
 
-        //CORS
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=UTF-8");
-        headers.add("Access-Control-Allow-Origin", "*");
-        //create object from json form
         User user = gson.fromJson(jsonUser, User.class);
         String userId = user.getUserId();
         String password = user.getPassword();
@@ -47,25 +50,39 @@ public class UserController {
 
         int foundSize = foundUsers.size();
         if (foundSize == 0) {
-            return (new ResponseEntity<>("user not found", headers, HttpStatus.OK));
+            return (new ResponseEntity<>("user not found", buildHeader(), HttpStatus.OK));
         } else if (foundSize == 1) {
             User foundUser = foundUsers.get(0);
             session.setAttribute("currentUser", foundUser);
             String responseJson = gson.toJson(foundUser);
-            return (new ResponseEntity<>(responseJson, headers, HttpStatus.OK));
+            return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
         } else {
-            return (new ResponseEntity<>("", headers, HttpStatus.INTERNAL_SERVER_ERROR));
+            return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 
+    /**
+     * return json of current user from session if not found return null
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<String> getCurrentUser(HttpServletRequest request) {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "*");
-
         String responseJson = gson.toJson(request.getSession().getAttribute("currentUser"));
-        return (new ResponseEntity<>(responseJson, headers, HttpStatus.OK));
+        if(null == responseJson){
+            return (new ResponseEntity<>("", buildHeader(), HttpStatus.BAD_REQUEST));
+        }
+        return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
+    }
+
+
+    public HttpHeaders buildHeader(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+        headers.add("Access-Control-Allow-Origin", "*");
+        return headers;
     }
 
 }

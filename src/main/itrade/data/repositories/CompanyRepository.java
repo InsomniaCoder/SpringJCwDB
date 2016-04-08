@@ -1,5 +1,6 @@
 package main.itrade.data.repositories;
 
+import main.itrade.data.entities.Company;
 import main.itrade.data.entities.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,15 +13,9 @@ import java.util.List;
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
  */
 @Repository
-public interface UserRepository extends CrudRepository<User,Integer> {
+public interface CompanyRepository extends CrudRepository<Company,Integer> {
 
-    @SuppressWarnings("JpaQlInspection")
-    @Query(" SELECT user FROM User user WHERE user.userId = :userId AND user.password = :password ")
-    List<User> findUserByUserIdAndPassword(
-            @Param("userId") String userId,@Param("password") String password);
 
-    User findByUserId(String userId);
 
+          Company findByCode(String code);
 }
-
-

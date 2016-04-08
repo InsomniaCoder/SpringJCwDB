@@ -39,6 +39,9 @@ public class User {
     @Column
     private String role;
 
+    @ManyToOne
+    private Company company;
+
 
     public static User createUser(UserRole userRole, String userId, String password){
         return new User(userRole.toString(),userId,password);
@@ -51,6 +54,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public String getUserId() {

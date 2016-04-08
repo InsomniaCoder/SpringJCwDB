@@ -1,7 +1,9 @@
 package test.main.itrade.data.repositories;
 
 import main.itrade.ApplicationConfigure;
+import main.itrade.data.entities.Company;
 import main.itrade.data.entities.User;
+import main.itrade.data.repositories.CompanyRepository;
 import main.itrade.data.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,6 +23,9 @@ public class UserRepositoriesTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     @Test
     public void testFindByIdAdmin() {
@@ -46,5 +51,23 @@ public class UserRepositoriesTest {
         Assert.assertEquals("Found should not found user ", 0, foundUsers.size());
     }
 
+    @Test
+    public void testAdminUserMustBeInParentCompany() {
 
+        User foundUsers = userRepository.findByUserId("admin");
+
+        Company parentCompany = companyRepository.findByCode("1001");
+
+        Assert.assertEquals("Admin is not in parent company", foundUsers.getId(), parentCompany.getUsers().get(0).getId());
+    }
+
+    @Test
+    public void testRegularUserMustBeInChildCompany() {
+
+        User foundUsers = userRepository.findByUserId("user");
+
+        Company childCompany = companyRepository.findByCode("1002");
+
+        Assert.assertEquals("User is not in child company", foundUsers.getId(), childCompany.getUsers().get(0).getId());
+    }
 }

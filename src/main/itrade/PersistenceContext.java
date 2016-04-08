@@ -58,7 +58,9 @@ public class PersistenceContext {
         jpaProperties.put("hibernate.ejb.naming_strategy",
                 "org.hibernate.cfg.ImprovedNamingStrategy"
         );
-
+        jpaProperties.put("hibernate.enable_lazy_load_no_trans",
+                "true"
+        );
         //If the value of this property is true, Hibernate writes all SQL
         //statements to the console.
         jpaProperties.put("hibernate.show_sql",
