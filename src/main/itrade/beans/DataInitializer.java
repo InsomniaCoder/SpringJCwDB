@@ -1,5 +1,6 @@
 package main.itrade.beans;
 
+import main.itrade.data.dtos.helper.UserRole;
 import main.itrade.data.entities.Company;
 import main.itrade.data.entities.User;
 import main.itrade.data.repositories.CompanyRepository;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
@@ -23,9 +22,6 @@ public class DataInitializer {
 
     @Autowired
     CompanyRepository companyRepository;
-
-    @PersistenceContext
-    EntityManager entityManager;
 
     @PostConstruct
     public void setUpMockData() {
@@ -46,10 +42,10 @@ public class DataInitializer {
     }
 
     private void createMockUser(Company parent, Company children) {
-        User adminUser = User.createUser(User.UserRole.ADMIN, "admin", "admin");
+        User adminUser = User.createUser(UserRole.ADMIN, "admin", "admin");
         adminUser.setCompany(parent);
-        User authorizeUser = User.createUser(User.UserRole.AUTHORIZER, "authorizer", "authorizer");
-        User regularUser = User.createUser(User.UserRole.REGULAR, "user", "user");
+        User authorizeUser = User.createUser(UserRole.AUTHORIZER, "authorizer", "authorizer");
+        User regularUser = User.createUser(UserRole.REGULAR, "user", "user");
         regularUser.setCompany(children);
         userRepository.save(adminUser);
         userRepository.save(authorizeUser);

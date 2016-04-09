@@ -1,5 +1,7 @@
 package main.itrade.data.entities;
 
+import main.itrade.data.dtos.helper.UserRole;
+
 import javax.persistence.*;
 
 /**
@@ -7,24 +9,6 @@ import javax.persistence.*;
  */
 @Entity
 public class User {
-
-    public enum UserRole{
-        ADMIN,AUTHORIZER,REGULAR
-    }
-
-    public User() {
-    }
-
-    public User( String role,String userId,String password) {
-        this.role = role;
-        this.userId = userId;
-        this.password = password;
-    }
-
-    public User(String userId,String password){
-        this.userId = userId;
-        this.password = password;
-    }
 
     @ManyToOne
     private Company company;
@@ -42,14 +26,31 @@ public class User {
     @Column
     private String role;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToOne (cascade=CascadeType.ALL)
+    @JoinColumn(name="limitinfo_id", unique= true, nullable=true, insertable=true, updatable=true)
     private LimitInfo limitInfo;
 
+
+    /**
+     * Constructor
+     */
+    public User() {
+    }
+
+    public User( String role,String userId,String password) {
+        this.role = role;
+        this.userId = userId;
+        this.password = password;
+    }
+
+    public User(String userId,String password){
+        this.userId = userId;
+        this.password = password;
+    }
 
     public static User createUser(UserRole userRole, String userId, String password){
         return new User(userRole.toString(),userId,password);
     }
-
 
     public LimitInfo getLimitInfo() {
         return limitInfo;

@@ -1,64 +1,62 @@
 package main.itrade.data.dtos.limit;
 
-import main.itrade.data.entities.LimitInfo;
-
 /**
  * Created by Tanat on 4/8/2016.
  */
 public class SaveLimitDTO {
 
-    private String creditLimit;
-    private String lc;
-    private String tr;
-    private String be;
-    private String sg;
-    private String pk;
+    private double creditLimit;
+    private double lc;
+    private double tr;
+    private double be;
+    private double sg;
+    private double pk;
 
-    public String getCreditLimit() {
+    public double getCreditLimit() {
         return creditLimit;
     }
 
-    public void setCreditLimit(String creditLimit) {
+    public void setCreditLimit(double creditLimit) {
         this.creditLimit = creditLimit;
     }
 
-    public String getLc() {
+    public double getLc() {
         return lc;
     }
 
-    public void setLc(String lc) {
+    public void setLc(double lc) {
         this.lc = lc;
     }
 
-    public String getTr() {
+    public double getTr() {
         return tr;
     }
 
-    public void setTr(String tr) {
+    public void setTr(double tr) {
         this.tr = tr;
     }
 
-    public String getBe() {
+    public double getBe() {
         return be;
     }
 
-    public void setBe(String be) {
+    public void setBe(double be) {
         this.be = be;
     }
 
-    public String getSg() {
+    public double getSg() {
         return sg;
     }
 
-    public void setSg(String sg) {
+    public void setSg(double sg) {
         this.sg = sg;
     }
 
-    public String getPk() {
+    public double getPk() {
         return pk;
     }
 
-    public void setPk(String pk) {
+    public void setPk(double pk) {
         this.pk = pk;
     }
 }

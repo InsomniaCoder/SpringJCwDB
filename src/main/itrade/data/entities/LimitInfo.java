@@ -1,5 +1,7 @@
 package main.itrade.data.entities;
 
+import main.itrade.data.dtos.limit.Commission;
+
 import javax.persistence.*;
 
 /**
@@ -8,54 +10,40 @@ import javax.persistence.*;
 @Entity
 public class LimitInfo {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column
-    private String savingAccount;
+    private double savingAccount;
 
     @Column
-    private String currentAccount;
+    private double currentAccount;
 
     @Column
-    private String fcdAccount;
+    private double fcdAccount;
 
     @Column
-    private String otherAccount;
+    private double otherAccount;
 
     @Column
-    private String lcAmount;
+    private double lcAmount;
 
     @Column
-    private String trAmount;
+    private double trAmount;
 
     @Column
-    private String beAmount;
+    private double beAmount;
 
     @Column
-    private String sgAmount;
+    private double sgAmount;
 
     @Column
-    private String pkAmount;
-
-    @Column
-    private Commission commission;
+    private double pkAmount;
 
     public LimitInfo() {
     }
 
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Integer getId() {
         return id;
@@ -65,134 +53,75 @@ public class LimitInfo {
         this.id = id;
     }
 
-    public String getSavingAccount() {
+    public double getSavingAccount() {
         return savingAccount;
     }
 
-    public void setSavingAccount(String savingAccount) {
+    public void setSavingAccount(double savingAccount) {
         this.savingAccount = savingAccount;
     }
 
-    public String getCurrentAccount() {
+    public double getCurrentAccount() {
         return currentAccount;
     }
 
-    public void setCurrentAccount(String currentAccount) {
+    public void setCurrentAccount(double currentAccount) {
         this.currentAccount = currentAccount;
     }
 
-    public String getFcdAccount() {
+    public double getFcdAccount() {
         return fcdAccount;
     }
 
-    public void setFcdAccount(String fcdAccount) {
+    public void setFcdAccount(double fcdAccount) {
         this.fcdAccount = fcdAccount;
     }
 
-    public String getOtherAccount() {
+    public double getOtherAccount() {
         return otherAccount;
     }
 
-    public void setOtherAccount(String otherAccount) {
+    public void setOtherAccount(double otherAccount) {
         this.otherAccount = otherAccount;
     }
 
-    public String getLcAmount() {
+    public double getLcAmount() {
         return lcAmount;
     }
 
-    public void setLcAmount(String lcAmount) {
+    public void setLcAmount(double lcAmount) {
         this.lcAmount = lcAmount;
     }
 
-    public String getTrAmount() {
+    public double getTrAmount() {
         return trAmount;
     }
 
-    public void setTrAmount(String trAmount) {
+    public void setTrAmount(double trAmount) {
         this.trAmount = trAmount;
     }
 
-    public String getBeAmount() {
+    public double getBeAmount() {
         return beAmount;
     }
 
-    public void setBeAmount(String beAmount) {
+    public void setBeAmount(double beAmount) {
         this.beAmount = beAmount;
     }
 
-    public String getSgAmount() {
+    public double getSgAmount() {
         return sgAmount;
     }
 
-    public void setSgAmount(String sgAmount) {
+    public void setSgAmount(double sgAmount) {
         this.sgAmount = sgAmount;
     }
 
-    public String getPkAmount() {
+    public double getPkAmount() {
         return pkAmount;
     }
 
-    public void setPkAmount(String pkAmount) {
+    public void setPkAmount(double pkAmount) {
         this.pkAmount = pkAmount;
     }
-
-    public Commission getCommission() {
-        return commission;
-    }
-
-    public void setCommission(Commission commission) {
-        this.commission = commission;
-    }
-
-    public class Commission{
-
-        private double flat;
-        private double rate;
-        private double period;
-        private double min;
-
-        public Commission() {
-        }
-
-        public Commission(double flat, double rate, double period, double min) {
-            this.flat = flat;
-            this.rate = rate;
-            this.period = period;
-            this.min = min;
-        }
-
-        public double getFlat() {
-            return flat;
-        }
-
-        public void setFlat(double flat) {
-            this.flat = flat;
-        }
-
-        public double getRate() {
-            return rate;
-        }
-
-        public void setRate(double rate) {
-            this.rate = rate;
-        }
-
-        public double getPeriod() {
-            return period;
-        }
-
-        public void setPeriod(double period) {
-            this.period = period;
-        }
-
-        public double getMin() {
-            return min;
-        }
-
-        public void setMin(double min) {
-            this.min = min;
-        }
-    }
-
 }
