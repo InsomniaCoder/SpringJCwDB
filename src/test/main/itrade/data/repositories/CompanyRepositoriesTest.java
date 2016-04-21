@@ -24,7 +24,7 @@ public class CompanyRepositoriesTest {
     CompanyRepository companyRepository;
 
     @Test
-    public void testParenShouldHaveChildAndChildShouldHaveParent() {
+    public void testParentShouldHaveChildAndChildShouldHaveParent() {
 
         Company foundParentCompany = companyRepository.findByCode("1001");
         Assert.assertNotNull("Not found company from parent id", foundParentCompany);
@@ -34,16 +34,18 @@ public class CompanyRepositoriesTest {
 
         Assert.assertEquals("company name is incorrect", "CHINA_SYSTEMS",foundParentCompany.getName());
 
-        Assert.assertEquals("children number found is in correct", 1 ,foundParentCompany.getChildren().size());
-
-
-        Assert.assertNotNull("Child is not saved", foundChildren);
+        Assert.assertEquals("children number found is incorrect", 1 ,foundParentCompany.getChildren().size());
 
         Assert.assertEquals("Child company's code is incorrect", "1002",foundChildren.getCode());
+
         Assert.assertEquals("Child company's name is incorrect", "ITOS_CORPORATION",foundChildren.getName());
 
-        Assert.assertEquals("Child company's parent is not equal", foundParentCompany.getId(), foundChildren.getParent().getId());
+        Assert.assertEquals("Actual parent and parent of child company are not the same", foundParentCompany.getId(), foundChildren.getParent().getId());
+
+        Assert.assertEquals("Actual child and child of parent company are not the same",foundParentCompany.getChildren().get(0).getId(),foundChildren.getId());
     }
+
+
 
 
 
