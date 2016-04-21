@@ -1,7 +1,10 @@
 package main.itrade.controllers.parent;
 
 import com.google.gson.Gson;
+import main.itrade.controllers.HttpHelper;
+import main.itrade.data.entities.Company;
 import main.itrade.data.entities.User;
+import main.itrade.data.repositories.CompanyRepository;
 import main.itrade.data.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,83 +28,33 @@ public class ParentController {
     private static Gson gson = new Gson();
 
     @Autowired
-    UserRepository userRepository;
+    CompanyRepository companyRepository;
 
-    /**
-     * verify userId and password in the database
-     * if found -> create session and add user into it
-     * not found -> return null
-     *
-     * @param jsonUser json data from user contains userId and password form post data
-     * @param request  HttpServletRequest is used to intercept session
-     * @return
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<String> login(@RequestBody String jsonUser, HttpServletRequest request) {
 
-        HttpSession session = request.getSession(true);
-        session.setMaxInactiveInterval(60 * 60);
+    @RequestMapping(value = "/childCompany", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<String> createChildCompany(@RequestBody String companyInfo, HttpServletRequest request) {
 
-        User user = gson.fromJson(jsonUser, User.class);
-        String userId = user.getUserId();
-        String password = user.getPassword();
-        int company_id = Integer.valueOf(user.getCompany_id());
 
-        List<User> foundUsers = userRepository.findUserByUserIdAndPassword(userId, password);
 
-        int foundSize = foundUsers.size();
-        if (foundSize == 0) {
-            return (new ResponseEntity<>("user not found", buildHeader(), HttpStatus.OK));
-        } else if (foundSize == 1) {
-
-            User foundUser = foundUsers.get(0);
-
-            if(foundUser.getCompany().getId() != company_id){
-                return (new ResponseEntity<>("company code is incorrect", buildHeader(), HttpStatus.OK));
-            }
-
-            session.setAttribute("currentUser", foundUser);
-            String responseJson = gson.toJson(foundUser);
-
-            return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
-        } else {
-            return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
+        if( ! HttpHelper.sessionIsExist(request) ){
+              return (new ResponseEntity<>("session not found", HttpHelper.buildHeader(), HttpStatus.OK));
         }
-    }
 
-    /**
-     * return json of current user from session if not found return null
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<String> getCurrentUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
-        HttpSession session = request.getSession(false);
-
-        if(null == session){
-
-            return (new ResponseEntity<>("", buildHeader(), HttpStatus.BAD_REQUEST));
-        }else{
-
-            User user = (User) session.getAttribute("currentUser");
-
-            if(user == null){
-                return (new ResponseEntity<>("", buildHeader(), HttpStatus.BAD_REQUEST));
-            }else{
-                String responseJson = gson.toJson(user);
-                return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
-            }
-        }
+        User currentUser = (User) session.getAttribute("currentUser");
+        Company parentCompany = currentUser.getCompany();
+        //TODO  check authorization
+        Company creatingChild = gson.fromJson(companyInfo, Company.class);
+        parentCompany.getChildren().add(creatingChild);
+        companyRepository.save(parentCompany);
+        Company createdChild = companyRepository.findByCode(creatingChild.getCode());
+        return (new ResponseEntity<>(gson.toJson(createdChild), HttpHelper.buildHeader(), HttpStatus.OK));
     }
 
 
-    public HttpHeaders buildHeader(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=UTF-8");
-        headers.add("Access-Control-Allow-Origin", "*");
-        return headers;
-    }
+
+
+
 
 }
