@@ -45,7 +45,23 @@ public class CompanyRepositoriesTest {
         Assert.assertEquals("Actual child and child of parent company are not the same",foundParentCompany.getChildren().get(0).getId(),foundChildren.getId());
     }
 
+    @Test
+    public void saveChildByParentShouldPersisChild(){
 
+        Company foundParentCompany = companyRepository.findByCode("1001");
+        Assert.assertNotNull("Not found company from parent id", foundParentCompany);
+
+        Company childCompany = new Company();
+        childCompany.setCode("xxx");
+        childCompany.setName("testChild");
+
+        foundParentCompany.getChildren().add(childCompany);
+
+        companyRepository.save(foundParentCompany);
+
+        Company retrievedChild = companyRepository.findByCode("xxx");
+        Assert.assertNotNull("Not found child after persist by parent", retrievedChild);
+    }
 
 
 
