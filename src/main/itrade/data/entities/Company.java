@@ -20,14 +20,28 @@ public class Company {
     @Column
     private String name;
 
+    @Column
+    private String address;
+
+    @Column
+    private String country;
+
+    /*
+      self join relation
+     */
     @OneToMany(mappedBy="parent",cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Company> children;
 
     @ManyToOne(fetch = FetchType.EAGER,targetEntity = Company.class)
     private Company parent;
 
+
     @OneToMany(mappedBy="company")
     private List<User> users;
+
+    @OneToMany(mappedBy = "company")
+    private List<LimitInfo> limitInfos;
+
 
     public Company() {
     }
@@ -66,6 +80,26 @@ public class Company {
         this.name = name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setChildren(List<Company> children) {
+        this.children = children;
+    }
+
     public Company getParent() {
         return parent;
     }
@@ -87,5 +121,13 @@ public class Company {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<LimitInfo> getLimitInfos() {
+        return limitInfos;
+    }
+
+    public void setLimitInfos(List<LimitInfo> limitInfos) {
+        this.limitInfos = limitInfos;
     }
 }

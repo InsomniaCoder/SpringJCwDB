@@ -1,6 +1,7 @@
 package main.itrade.data.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
@@ -21,8 +22,17 @@ public class Bank {
     @Column
     private String country;
 
+    @OneToMany
+    private List<LimitInfo> limitInfo;
+
+    @OneToMany
+    private List<LC> lcs;
+
+
     public Bank() {
     }
+
+
 
     private Bank(String abbreviation, String fullName, String country) {
         this.abbreviation = abbreviation;
@@ -103,5 +113,21 @@ public class Bank {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<LimitInfo> getLimitInfo() {
+        return limitInfo;
+    }
+
+    public void setLimitInfo(List<LimitInfo> limitInfo) {
+        this.limitInfo = limitInfo;
+    }
+
+    public List<LC> getLcs() {
+        return lcs;
+    }
+
+    public void setLcs(List<LC> lcs) {
+        this.lcs = lcs;
     }
 }

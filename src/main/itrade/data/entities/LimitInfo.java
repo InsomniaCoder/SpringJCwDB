@@ -41,6 +41,12 @@ public class LimitInfo {
     @Column
     private double pkAmount;
 
+    @ManyToOne
+    private Company company;
+
+    @ManyToOne
+    private Bank bank;
+
     public LimitInfo() {
     }
 
@@ -124,4 +130,22 @@ public class LimitInfo {
     public void setPkAmount(double pkAmount) {
         this.pkAmount = pkAmount;
     }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+
 }

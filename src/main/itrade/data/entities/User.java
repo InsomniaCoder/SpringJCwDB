@@ -3,6 +3,7 @@ package main.itrade.data.entities;
 import main.itrade.data.dtos.helper.UserRole;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
@@ -26,11 +27,13 @@ public class User {
     @Column
     private String role;
 
-    private String company_id;
+    //for DTO purpose
+    @Transient
+    private String company_code;
 
-    @OneToOne (cascade=CascadeType.ALL)
-    @JoinColumn(name="limitinfo_id", unique= true, nullable=true, insertable=true, updatable=true)
-    private LimitInfo limitInfo;
+    @OneToMany(mappedBy = "user")
+    private List<LC> lcs;
+
 
 
     /**
@@ -52,14 +55,6 @@ public class User {
 
     public static User createUser(UserRole userRole, String userId, String password){
         return new User(userRole.toString(),userId,password);
-    }
-
-    public LimitInfo getLimitInfo() {
-        return limitInfo;
-    }
-
-    public void setLimitInfo(LimitInfo limitInfo) {
-        this.limitInfo = limitInfo;
     }
 
     public Integer getId() {
@@ -102,12 +97,20 @@ public class User {
         this.role = role;
     }
 
-    public String getCompany_id() {
-        return company_id;
+    public String getCompany_code() {
+        return company_code;
     }
 
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id;
+    public void setCompany_code(String company_code) {
+        this.company_code = company_code;
+    }
+
+    public List<LC> getLcs() {
+        return lcs;
+    }
+
+    public void setLcs(List<LC> lcs) {
+        this.lcs = lcs;
     }
 
     @Override
