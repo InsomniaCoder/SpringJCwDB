@@ -39,12 +39,13 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<String> login(@RequestBody String jsonUser, HttpServletRequest request) {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setMaxInactiveInterval(60 * 60);
 
         User user = gson.fromJson(jsonUser, User.class);
         String userId = user.getUserId();
         String password = user.getPassword();
+        int company_id = Integer.valueOf(user.getCompany_id());
 
         List<User> foundUsers = userRepository.findUserByUserIdAndPassword(userId, password);
 
@@ -52,9 +53,16 @@ public class UserController {
         if (foundSize == 0) {
             return (new ResponseEntity<>("user not found", buildHeader(), HttpStatus.OK));
         } else if (foundSize == 1) {
+
             User foundUser = foundUsers.get(0);
+
+            if(foundUser.getCompany().getId() != company_id){
+                return (new ResponseEntity<>("company code is incorrect", buildHeader(), HttpStatus.OK));
+            }
+
             session.setAttribute("currentUser", foundUser);
             String responseJson = gson.toJson(foundUser);
+
             return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
         } else {
             return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
@@ -70,11 +78,22 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<String> getCurrentUser(HttpServletRequest request) {
 
-        String responseJson = gson.toJson(request.getSession().getAttribute("currentUser"));
-        if(null == responseJson){
+        HttpSession session = request.getSession(false);
+
+        if(null == session){
+
             return (new ResponseEntity<>("", buildHeader(), HttpStatus.BAD_REQUEST));
+        }else{
+
+            User user = (User) session.getAttribute("currentUser");
+
+            if(user == null){
+                return (new ResponseEntity<>("", buildHeader(), HttpStatus.BAD_REQUEST));
+            }else{
+                String responseJson = gson.toJson(user);
+                return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
+            }
         }
-        return (new ResponseEntity<>(responseJson, buildHeader(), HttpStatus.OK));
     }
 
 
