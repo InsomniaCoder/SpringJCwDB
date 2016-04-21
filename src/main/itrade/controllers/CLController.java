@@ -36,20 +36,14 @@ public class CLController {
     
     Gson gson = new Gson();
 
-    public HttpHeaders buildHeader() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=UTF-8");
-        headers.add("Access-Control-Allow-Origin", "*");
-        return headers;
-    }
-
+/*
     @RequestMapping(value = "/saveAccount", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Object> saveAccount(@RequestBody String jsonUser, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("currentUser");
         if (null == currentUser) {
-            return (new ResponseEntity<Object>("please login first", buildHeader(), HttpStatus.BAD_REQUEST));
+            return (new ResponseEntity<Object>("please login first", HttpHelper.buildHeader(), HttpStatus.BAD_REQUEST));
         }
 
         SaveAccountDTO saveAccountDTO = gson.fromJson(jsonUser, SaveAccountDTO.class);
@@ -68,7 +62,7 @@ public class CLController {
 
         Object userLimitJson = gson.toJson(userLimit);
 
-        return (new ResponseEntity<>(userLimitJson, buildHeader(), HttpStatus.OK));
+        return (new ResponseEntity<>(userLimitJson, HttpHelper.buildHeader(), HttpStatus.OK));
     }
 
     private void setAllAccountValue(LimitInfo userLimit, SaveAccountDTO saveAccountDTO) {
@@ -96,7 +90,7 @@ public class CLController {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("currentUser");
         if (null == currentUser) {
-            return (new ResponseEntity<>("please login first", buildHeader(), HttpStatus.BAD_REQUEST));
+            return (new ResponseEntity<>("please login first", HttpHelper.buildHeader(), HttpStatus.BAD_REQUEST));
         }
 
         SaveLimitDTO saveLimitDTO = gson.fromJson(jsonUser, SaveLimitDTO.class);
@@ -104,7 +98,7 @@ public class CLController {
 
         //header configure
 
-        return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
+        return (new ResponseEntity<>("", HttpHelper.buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @RequestMapping(value = "/getLimit", method = RequestMethod.POST, consumes = "application/json")
@@ -113,11 +107,11 @@ public class CLController {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("currentUser");
         if (null == currentUser) {
-            return (new ResponseEntity<>("please login first", buildHeader(), HttpStatus.BAD_REQUEST));
+            return (new ResponseEntity<>("please login first", HttpHelper.buildHeader(), HttpStatus.BAD_REQUEST));
         }
 
         //retrieve credit and return.
-        return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
+        return (new ResponseEntity<>("", HttpHelper.buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @RequestMapping(value = "/saveCommission", method = RequestMethod.POST, consumes = "application/json")
@@ -126,7 +120,7 @@ public class CLController {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("currentUser");
         if (null == currentUser) {
-            return (new ResponseEntity<>("please login first", buildHeader(), HttpStatus.BAD_REQUEST));
+            return (new ResponseEntity<>("please login first", HttpHelper.buildHeader(), HttpStatus.BAD_REQUEST));
         }
 
         Commission commissionDTO = gson.fromJson(jsonUser, Commission.class);
@@ -134,6 +128,6 @@ public class CLController {
 
         //header configure
 
-        return (new ResponseEntity<>("", buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+        return (new ResponseEntity<>("", HttpHelper.buildHeader(), HttpStatus.INTERNAL_SERVER_ERROR));
+    }*/
 }
