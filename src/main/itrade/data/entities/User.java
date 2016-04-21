@@ -26,6 +26,8 @@ public class User {
     @Column
     private String role;
 
+    private String company_id;
+
     @OneToOne (cascade=CascadeType.ALL)
     @JoinColumn(name="limitinfo_id", unique= true, nullable=true, insertable=true, updatable=true)
     private LimitInfo limitInfo;
@@ -98,6 +100,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
     }
 
     @Override
