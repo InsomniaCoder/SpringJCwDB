@@ -45,7 +45,7 @@ public class UserController {
         User user = gson.fromJson(jsonUser, User.class);
         String userId = user.getUserId();
         String password = user.getPassword();
-        int company_id = Integer.valueOf(user.getCompany_id());
+        int company_id = Integer.valueOf(user.getCompany_code());
 
         List<User> foundUsers = userRepository.findUserByUserIdAndPassword(userId, password);
 
