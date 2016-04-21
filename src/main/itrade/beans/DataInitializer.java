@@ -33,6 +33,8 @@ public class DataInitializer {
     private void createMockCompany() {
 
         Company parent = Company.createCompanyByCodeName("1001", "CHINA_SYSTEMS");
+        parent.setAddress("Sukhumvit rd. , Bangkok");
+        parent.setCountry("Thailand");
         Company children = Company.createCompanyByCodeName("1002", "ITOS_CORPORATION");
         parent.getChildren().add(children);
         children.setParent(parent);
@@ -50,6 +52,13 @@ public class DataInitializer {
         userRepository.save(adminUser);
         userRepository.save(authorizeUser);
         userRepository.save(regularUser);
+    }
+
+    private void createMockLimitInfo(Company parent){
+
+
+
+
     }
 
 }
