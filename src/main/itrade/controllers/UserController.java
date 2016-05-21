@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by tanatlokejaroenlarb on 3/31/2016 AD.
  */
-@RestController(value = "/")
+@RestController
 public class UserController {
 
     private static Gson gson = new Gson();
